@@ -11,11 +11,9 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Routes>
-          {/* Public */}
+        <Routes>     
           <Route path="/login" element={<Login />} />
 
-          {/* Protected */}
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/upload" element={<Upload />} />

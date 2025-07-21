@@ -4,8 +4,8 @@ const coachingPlanSchema = new Schema(
   {
     call: { type: Schema.Types.ObjectId, ref: 'Call', required: true },
 
-    recommendations: [String], // bullet-point suggestions
-    nextSteps: String, // free-text action plan
+    recommendations: [String],
+    nextSteps: String,
   },
   { timestamps: true },
 );

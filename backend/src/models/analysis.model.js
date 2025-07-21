@@ -8,7 +8,7 @@ const analysisSchema = new Schema(
       talkToListenRatio: Number,
       fillerWordCount: Number,
       sentimentScore: Number,
-      customScores: Schema.Types.Mixed, // any other dynamic scores
+      customScores: Schema.Types.Mixed,
     },
 
     summary: String,

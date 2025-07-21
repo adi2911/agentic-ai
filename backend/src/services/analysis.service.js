@@ -6,7 +6,6 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 const temperature = Number(process.env.OPENAI_TEMPERATURE) || 0.3;
 
-/** JSON schema the model must return (function-calling). */
 const analysisFn = {
   name: 'analysis_result',
   description: 'Structured analysis for a sales-coaching call',
@@ -45,14 +44,12 @@ export const analyseTranscript = async (call, transcript) => {
           content: `Here is a transcript chunk:\n\n${chunk}`,
         },
       ],
-    }); /* :contentReference[oaicite:1]{index=1} */
+    });
 
-    /* SDK v4 returns the arguments as JSON in tool call */
     const data = JSON.parse(res.choices[0].message.tool_calls[0].function.arguments);
     partials.push(data);
   }
 
-  // Aggregate (simple average / sum)
   const metrics = {
     talkToListenRatio: partials.reduce((s, p) => s + p.talkToListenRatio, 0) / partials.length,
     fillerWordCount: partials.reduce((s, p) => s + p.fillerWordCount, 0),

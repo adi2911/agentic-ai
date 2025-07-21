@@ -15,7 +15,7 @@ export const createTranscript = async (call) => {
     file: fs.createReadStream(audioPath),
     model: 'whisper-1',
     response_format: 'json',
-  }); /* :contentReference[oaicite:0]{index=0} */
+  });
 
   return Transcript.create({
     call: call._id,

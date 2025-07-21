@@ -35,7 +35,6 @@ export default function CallDetail() {
         ← Back to Dashboard
       </Link>
 
-      {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold truncate">{call.filename}</h1>
         <StatusBadge status={call.status} />
@@ -44,7 +43,6 @@ export default function CallDetail() {
         Created: {dayjs(call.createdAt).format('YYYY-MM-DD HH:mm')}
       </p>
 
-      {/* Transcript */}
       {call.transcript ? (
         <section>
           <h2 className="font-semibold mb-2">Transcript</h2>
@@ -56,7 +54,6 @@ export default function CallDetail() {
         <p className="italic text-gray-500">Transcript not available.</p>
       )}
 
-      {/* Metrics */}
       {call.analysis && (
         <section>
           <h2 className="font-semibold mb-2">Metrics</h2>
@@ -76,7 +73,6 @@ export default function CallDetail() {
         </section>
       )}
 
-      {/* Coaching Plan */}
       {call.coachingPlan && (
         <section>
           <h2 className="font-semibold mb-2">Coaching Plan</h2>

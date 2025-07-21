@@ -1,6 +1,5 @@
 import axios from "axios";
 
-/* ---------- upload ---------- */
 export const uploadCall = async (file, onUploadProgress) => {
   const formData = new FormData();
   formData.append("audio", file);
@@ -12,13 +11,11 @@ export const uploadCall = async (file, onUploadProgress) => {
   return res.data; // { id, status }
 };
 
-/* ---------- list calls ---------- */
 export const fetchCalls = async (page = 1, limit = 10) => {
   const res = await axios.get(`/api/calls?page=${page}&limit=${limit}`);
   return res.data; // { page, limit, total, data:[...] }
 };
 
-/* ---------- single call ---------- */
 export const fetchCall = async (id) => {
   const res = await axios.get(`/api/calls/${id}`);
   return res.data; // full Call object with populated refs

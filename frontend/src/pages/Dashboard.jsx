@@ -12,16 +12,15 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // ───────────────────────────────── Poll every 5 s
   useEffect(() => {
   let active = true;
 
   const load = async () => {
     try {
       if (active) setLoading(true);
-      const res = await fetchCalls();      // ← hits GET /api/calls
+      const res = await fetchCalls();    
       if (active) {
-        setCalls(res.data);                // updates the table
+        setCalls(res.data);                
         setError('');
       }
     } catch (err) {
@@ -32,19 +31,17 @@ export default function Dashboard() {
     }
   };
 
-  load();                                  // initial fetch
-  const id = setInterval(load, 7000);      // ← **poll every 5 s**
+  load();                                  
+  const id = setInterval(load, 10000);      
 
   return () => {
-    active = false;                        // guard against late updates
-    clearInterval(id);                     // ← cleanup when component unmounts
+    active = false;                       
+    clearInterval(id);                    
   };
 }, []);
 
-  // ───────────────────────────────── JSX
   return (
     <div className="p-6">
-      {/* Header */}
       <header className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <div className="space-x-4">
@@ -58,7 +55,6 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* Upload button */}
       <Link
         to="/upload"
         className="inline-block mb-6 bg-blue-600 text-white px-4 py-2 rounded"
@@ -66,7 +62,6 @@ export default function Dashboard() {
         + Upload New Call
       </Link>
 
-      {/* State handling */}
       {loading ? (
         <p className="text-center">Loading calls…</p>
       ) : error ? (

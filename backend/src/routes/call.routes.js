@@ -6,9 +6,6 @@ import { Analysis, Call, CoachingPlan, Transcript } from '../models/index.js';
 
 const router = Router();
 
-/* ────────────────────────────
-   Multer configuration
-────────────────────────────── */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -22,21 +19,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB
+  limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     if (file.mimetype.startsWith('audio/')) cb(null, true);
     else cb(new Error('Only audio files are allowed'));
   },
 });
 
-/* ────────────────────────────
-   POST /api/calls/upload
-────────────────────────────── */
 router.post('/upload', upload.single('audio'), async (req, res, next) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
-    // Stub user until auth is added
     const demoUserId = '000000000000000000000000';
 
     const call = await Call.create({
@@ -51,10 +44,6 @@ router.post('/upload', upload.single('audio'), async (req, res, next) => {
   }
 });
 
-/* ────────────────────────────
-   GET /api/calls
-   List calls (pagination + sorting)
-────────────────────────────── */
 router.get('/', async (req, res, next) => {
   try {
     const page = Math.max(1, Number(req.query.page) || 1);
@@ -77,10 +66,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-/* ────────────────────────────
-   GET /api/calls/:id
-   Full call with populated refs
-────────────────────────────── */
 router.get('/:id', async (req, res, next) => {
   try {
     const call = await Call.findById(req.params.id)
@@ -101,14 +86,13 @@ router.delete('/:id', async (req, res, next) => {
     const call = await Call.findById(req.params.id);
     if (!call) return res.status(404).json({ error: 'Call not found' });
 
-    // remove linked docs (ignore if null)
     await Promise.all([
       Transcript.deleteOne({ _id: call.transcript }),
       Analysis.deleteOne({ _id: call.analysis }),
       CoachingPlan.deleteOne({ _id: call.coachingPlan }),
     ]);
 
-    await call.deleteOne(); // remove the Call itself
+    await call.deleteOne();
 
     res.status(204).end();
   } catch (err) {
